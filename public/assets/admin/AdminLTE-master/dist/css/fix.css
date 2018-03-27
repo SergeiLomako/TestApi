@@ -1,0 +1,57 @@
+/* SORTING STYLES */
+span.sorting-button-down:before{
+    content: '\2039';
+    display: block;
+    transform-origin: center;
+    transform: rotate(-90deg);
+    width:5px;
+    position: absolute;
+    top: 10px;
+    left: -10px;
+    margin-top: 0px;
+    margin-left: 6px;
+    font-size: 20px;
+}
+span.sorting-button-up:before{
+    content: '\2039';
+    display: block;
+    transform-origin: center;
+    transform: rotate(90deg);
+    width:5px;
+    position: absolute;
+    top: 10px;
+    left: -10px;
+    font-size: 20px;
+    margin-left: 10px;
+    margin-top: -10px;
+}
+span.sorting-button-up, span.sorting-button-down{
+    height: 5px;
+    text-align: center;
+    position: relative;
+    color: rgba(204, 204, 204, 1);
+}
+span.sorting-button-up.active, span.sorting-button-down.active{
+    color: rgba(90, 96, 101, 1);
+}
+th a.sorting,
+td a.sorting
+{
+    position: relative;
+    margin-top: 0;
+    width: 5px;
+    margin-top: 13px;
+    padding-right: 0px;
+}
+th a.sorting p,
+td a.sorting p
+{
+    display: inline-block;
+    float: left;
+    margin: 0;
+    padding-left: 2px;
+}
+.employees-table thead>tr>th>p{
+    margin-bottom: 0;
+}
+/* SORTING STYLES END */
