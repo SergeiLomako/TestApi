@@ -22,11 +22,11 @@ Route::get('/remember', ['as' => 'remember', function () {
     }
 }]);
 
-Route::post('/send_token', ['uses' => 'Auth\ForgotPasswordController@send_mail','as' => 'send_token']);
+Route::post('/send_token', ['uses' => 'Auth\ForgotPasswordController@sendMail','as' => 'send_token']);
 
-Route::get('/change_password_form/{token}', ['uses' => 'Auth\ResetPasswordController@change_password_form','as' => 'change_password_form']);
+Route::get('/change_password_form/{token}', ['uses' => 'Auth\ResetPasswordController@changePasswordForm','as' => 'change_password_form']);
 
-Route::post('/save_password', ['uses' => 'Auth\ResetPasswordController@save_password','as' => 'save_password']);
+Route::post('/save_password', ['uses' => 'Auth\ResetPasswordController@savePassword','as' => 'save_password']);
 
 Route::post('/auth', ['uses' => 'Auth\LoginController@login','as' => 'admin_auth']);
 
@@ -52,7 +52,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['role:super_admin|admin|mode
 
         Route::delete('/delete', ['uses' => 'Admin\UserController@delete', 'as' => 'delete_user']);
 
-        Route::get('/info', ['uses' => 'Admin\UserController@get_info', 'as' => 'info_user']);
+        Route::get('/info', ['uses' => 'Admin\UserController@getInfo', 'as' => 'info_user']);
 
         Route::get('/search', ['uses' => 'Admin\UserController@search', 'as' => 'search_user']);
 
@@ -68,7 +68,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['role:super_admin|admin|mode
 
         Route::delete('/delete', ['uses' => 'Admin\OrderController@delete', 'as' => 'delete_order', 'middleware' => ['role:super_admin']]);
 
-        Route::get('/info', ['uses' => 'Admin\OrderController@get_info', 'as' => 'info_order']);
+        Route::get('/info', ['uses' => 'Admin\OrderController@getInfo', 'as' => 'info_order']);
 
         Route::get('/search', ['uses' => 'Admin\OrderController@search', 'as' => 'search_order']);
 

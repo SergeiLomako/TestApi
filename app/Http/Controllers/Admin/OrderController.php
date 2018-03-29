@@ -21,8 +21,8 @@ class OrderController extends Controller
             $this->field = $request->field;
             $this->sort = $request->sort;
         }
-        $lists = MyHelper::services_statuses();
-        $orders = Order::get_list($this->field, $this->sort);
+        $lists = MyHelper::servicesAndStatuses();
+        $orders = Order::getList($this->field, $this->sort);
         $sort = $this->sort == 'desc' ? 'asc' : 'desc';
         $data = ['title' => 'Список заказов',
             'orders' => $orders,
@@ -38,7 +38,7 @@ class OrderController extends Controller
     public function update(UpdateOrderRequest $request, $id)
     {
         $order = Order::findOrFail($id);
-        MyHelper::fill_request($order, $request);
+        MyHelper::fillRequest($order, $request);
         $order->save();
 
     }
@@ -55,16 +55,16 @@ class OrderController extends Controller
                 'payment_status' => 'required',
             ]);
             $order = new Order();
-            MyHelper::fill_request($order, $request);
+            MyHelper::fillRequest($order, $request);
             return redirect()->route('order')->with('status', 'Заказ добавлен!');
 
         }
-        $users = User::without_super_admin();
+        $users = User::withoutSuperAdmin();
         $user_list = [];
         foreach($users as $user){
             $user_list[$user->id] = $user->data->full_name;
         }
-        $lists = MyHelper::services_statuses();
+        $lists = MyHelper::servicesAndStatuses();
         $data = [
                  'title' => 'Добавление нового заказа',
                  'users' =>  $user_list,
@@ -76,10 +76,10 @@ class OrderController extends Controller
         return view('admin.orders.add', $data);
     }
 
-    public function get_info(Request $request)
+    public function getInfo(Request $request)
     {
         $order = Order::findOrFail($request->id);
-        $lists = MyHelper::services_statuses();
+        $lists = MyHelper::servicesAndStatuses();
         $content = view('admin.orders.show_order_info', ['order' => $order, 'lists' => $lists]);
         $image['id'] = $order->id;
         $image['content'] = "$content";
@@ -111,7 +111,7 @@ class OrderController extends Controller
         else {
             $orders = Order::search($search);
         }
-        $lists = MyHelper::services_statuses();
+        $lists = MyHelper::servicesAndStatuses();
         $data = ['title' => 'Результат поиска',
             'orders' => $orders,
             'services' => $lists['services'],

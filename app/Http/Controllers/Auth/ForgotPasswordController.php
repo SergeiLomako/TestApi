@@ -14,7 +14,7 @@ class ForgotPasswordController extends Controller
      *
      * @return void
      */
-    public function send_mail(Request $request)
+    public function sendMail(Request $request)
     {
         $search_user = \App\User::whereEmail($request->email)->first();
         if(!empty($search_user)){

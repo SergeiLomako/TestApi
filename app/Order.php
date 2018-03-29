@@ -32,7 +32,7 @@ class Order extends Model
         $this->attributes['date_receipt'] = Carbon::now();
     }
 
-    public static function get_list($field, $sort)
+    public static function getList($field, $sort)
     {
         return self::join('services', 'orders.service_id', '=', 'services.id')
             ->orderBy($field, $sort)

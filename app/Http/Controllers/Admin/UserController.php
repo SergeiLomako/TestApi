@@ -23,9 +23,9 @@ class UserController extends Controller
             $this->sort = $request->sort;
         }
         $user = Auth::user();
-        $not_searching = MyHelper::do_not_searching($user);
-        $users = User::get_list($not_searching, $this->field, $this->sort);
-        $roles = Role::role_list();
+        $not_searching = MyHelper::doNotSearching($user);
+        $users = User::getList($not_searching, $this->field, $this->sort);
+        $roles = Role::roleList();
         $sort = $this->sort == 'desc' ? 'asc' : 'desc';
         $data = ['title' => 'Список пользователей',
                  'users' => $users,
@@ -43,9 +43,9 @@ class UserController extends Controller
             $user->password = $request->password;
         }
         $user->save();
-        MyHelper::add_role($user, $request->role);
+        MyHelper::addRole($user, $request->role);
         $data = UserData::whereUserId($user->id)->firstOrFail();
-        MyHelper::fill_request($data, $request);
+        MyHelper::fillRequest($data, $request);
     }
 
     public function add(Request $request)
@@ -62,21 +62,21 @@ class UserController extends Controller
                 'email' => 'required|unique:users'
             ]);
             $user = new User();
-            MyHelper::fill_request($user, $request);
-            MyHelper::add_role($user, $request->role);
+            MyHelper::fillRequest($user, $request);
+            MyHelper::addRole($user, $request->role);
             $data = new UserData();
             $data->user_id = $user->id;
-            MyHelper::fill_request($data, $request);
+            MyHelper::fillRequest($data, $request);
             return redirect()->route('user')->with('status', 'Пользователь добавлен!');
 
         }
-        $roles = Role::role_list();
+        $roles = Role::roleList();
         $data = ['title' => 'Добавление нового пользователя',
                  'roles' => $roles];
         return view('admin.users.add', $data);
     }
 
-    public function get_info(Request $request)
+    public function getInfo(Request $request)
     {
         $user = User::findOrFail($request->id);
         $content = view('admin.users.show_user_info', ['user' => $user]);
@@ -101,7 +101,7 @@ class UserController extends Controller
             $order = \App\Order::whereSealNumber($request->search)->first();
             $message = 'Ничего не найдено';
             if($order != null){
-                $lists = MyHelper::services_statuses();
+                $lists = MyHelper::servicesAndStatuses();
                 $message = 'Клиент:' . ' '. $order->user->data->full_name . ' (' . $order->user->data->tel. '). ' . 'Услуга:' .
                             ' ' . $lists['services'][$order->service_id] . '. Дата поступления: ' . $order->date_receipt;
             }
@@ -110,7 +110,7 @@ class UserController extends Controller
         else {
             $users = User::search($user, $search);
         }
-        $roles = Role::role_list();
+        $roles = Role::roleList();
         $data = ['title' => 'Результат поиска',
             'users' => $users,
             'roles' => $roles,

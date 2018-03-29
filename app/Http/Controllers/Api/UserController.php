@@ -26,10 +26,10 @@ class UserController extends Controller
         $user_data->user_id = $user->id;
         $user_data->fill($request->all());
         $user_data->save();
-        return response()->json(['access_token' => $user->auth_token], 201);
+        return response()->json(['access_token' => $user->auth_token], 201)->withHeaders(['Access-token' =>$user->auth_token]);
     }
 
-    public function send_code(Request $request)
+    public function sendCode(Request $request)
     {
         $tel = preg_replace('![^0-9]+!', '', $request->tel);
         if (Auth::attempt([
@@ -60,10 +60,10 @@ class UserController extends Controller
         if(!empty($user)){
             $user->auth_token = str_random(50);
             $user->save();
-            return response()->json(['auth_token' => $user->auth_token]);
+            return response()->json(['auth_token' => $user->auth_token])->withHeaders(['Access-token' =>$user->auth_token]);
         }
         else {
-            return response()->json(['error' => 'Wrong data']);
+            return response()->json(['error' => 'Wrong data'],404);
         }
     }
 }

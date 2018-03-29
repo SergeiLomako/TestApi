@@ -7,18 +7,18 @@ class MyHelper {
      *
      * @return string
      */
-    public static function add_role($user, $role_id) {
+    public static function addRole($user, $role_id) {
         $role_id != 0 ? $user->syncRoles([$role_id]) : $user->detachRoles([2,3]);
         return true;
     }
 
-    public static function fill_request($model, $request){
+    public static function fillRequest($model, $request){
         $model->fill($request->all());
         $model->save();
         return true;
     }
 
-    public static function do_not_searching($user){
+    public static function doNotSearching($user){
         $do_not_searching = [$user->id];
         $super_admin = \App\User::whereHas('roles', function($query){
             $query->whereName('super_admin');
@@ -27,7 +27,7 @@ class MyHelper {
         return $do_not_searching;
     }
 
-    public static function services_statuses(){
+    public static function servicesAndStatuses(){
         $terminals = \App\Terminal::all();
         $services = \App\Service::all();
         $service_list = [];

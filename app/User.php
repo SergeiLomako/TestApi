@@ -18,7 +18,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'login', 'email', 'password',
+        'login', 'email', 'password', 'tel'
     ];
 
     /**
@@ -41,7 +41,7 @@ class User extends Authenticatable
         return $this->hasMany('App\Order');
     }
 
-    public static function get_to_reset_token($token)
+    public static function getToResetToken($token)
     {
         return self::wherePasswordResetToken($token)->first();
     }
@@ -63,7 +63,7 @@ class User extends Authenticatable
 
     public static function search($user, $search)
     {
-        $do_not_searching = \App\Helpers\MyHelper::do_not_searching($user);
+        $do_not_searching = \App\Helpers\MyHelper::doNotSearching($user);
         return self::whereNotIn('id', $do_not_searching)->whereHas('data', function ($query) use ($search, $user) {
             $query->where('first_name', 'like', $search)
                 ->orWhere('last_name', 'like', $search)
@@ -79,21 +79,13 @@ class User extends Authenticatable
         })->paginate(env('PAGINATE_LIMIT'));
     }
 
-    public static function get_list($not_searching, $field, $sort)
+    public static function getList($not_searching, $field, $sort)
     {
         return self::leftJoin('role_user', 'users.id', '=', 'role_user.user_id')
             ->join('user_data', 'users.id', '=', 'user_data.user_id')
             ->whereNotIn('users.id', $not_searching)
             ->orderBy($field, $sort)
             ->paginate(env('PAGINATE_LIMIT'));
-    }
-
-    public static function without_super_admin()
-    {
-        $admin = self::whereHas('roles', function ($query) {
-            $query->whereName('super_admin');
-        })->first();
-        return self::where('id', '!=', $admin->id)->get();
     }
 
 }

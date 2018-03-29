@@ -19,8 +19,8 @@
         <th>Действие</th>
     </tr>
     @foreach($users as $user)
-        <tr class="list_item" id="{{$user->id}}">
-            <td>{{$user->id}}</td>
+        <tr class="list_item" id="{{$user->user_id}}">
+            <td>{{$user->user_id}}</td>
             <td>{!! Form::text('full_name', isset($user->data) ? $user->data->full_name : $user->last_name . ' ' . $user->first_name, ['size' => 12, 'readonly' => 'true',
                     'style' => 'border: none', 'class' => 'input_item full_name'] ) !!}</td>
             <td>{!! Form::select('role', $roles, isset($user->roles[0]->id) ? $user->roles[0]->id : $user->role_id, ['disabled' => 'disabled', 'style' => 'border: none;',
@@ -42,14 +42,14 @@
                 <a href="javascript:void(0)" class="btn btn-xs btn-info update_user" title="Обновить">
                     <span class="glyphicon glyphicon-refresh"></span>
                 </a><br>
-                <a href="javascript:void(0)" class="btn btn-xs btn-danger delete_item" data-type="user" title="Удалить" data-id="{{$user->id}}">
+                <a href="javascript:void(0)" class="btn btn-xs btn-danger delete_item" data-type="user" title="Удалить" data-id="{{$user->user_id}}">
                     <span class="glyphicon glyphicon-trash"></span>
                 </a>
                 <a href="javascript:void(0)" class="btn btn-xs btn-warning info_item" data-type="user"
-                    data-toggle="modal" data-target="#myModal{{$user->id}}" id="{{$user->id}}" title="Подробнее">
+                    data-toggle="modal" data-target="#myModal{{$user->user_id}}" id="{{$user->user_id}}" title="Подробнее">
                     <span class="glyphicon glyphicon-list"></span>
                 </a>
-                <div id="myModal{{$user->id}}" class="modal fade" role="dialog"><div class="modal-dialog modal-lg" id="popup{{$user->id}}"></div></div>
+                <div id="myModal{{$user->user_id}}" class="modal fade" role="dialog"><div class="modal-dialog modal-lg" id="popup{{$user->user_id}}"></div></div>
             </td>
         </tr>
     @endforeach

@@ -36,8 +36,8 @@ class ResetPasswordController extends Controller
         $this->middleware('guest');
     }
 
-    public function change_password_form($token){
-          $user = User::get_to_reset_token($token);
+    public function changePasswordForm($token){
+          $user = User::getToResetToken($token);
           if(!empty($user)){
               return view('change_password', ['token' => $token]);
           }
@@ -45,12 +45,12 @@ class ResetPasswordController extends Controller
           abort(404);
     }
 
-    public function save_password(Request $request){
+    public function savePassword(Request $request){
         $this->validate($request, [
             'password' => 'required|min:6|max:25',
             'password_confirmation' => 'required|min:6|max:25|same:password',
         ]);
-        $user = User::get_to_reset_token($request->token);
+        $user = User::getToResetToken($request->token);
         if(!empty($user)){
             $user->password = bcrypt($request->password);
             $user->password_reset_token = null;

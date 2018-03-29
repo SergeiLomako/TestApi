@@ -8,7 +8,7 @@ use App\Http\Controllers\Controller;
 
 class OrderController extends Controller
 {
-    public function add_order(Request $request){
+    public function addOrder(Request $request){
         $request->validate([
             'terminal_id' => 'required|numeric',
             'box_number' => 'required|numeric',
@@ -23,7 +23,7 @@ class OrderController extends Controller
         return response()->json(['status' => 'Order added'], 201);
     }
 
-    public function get_list($id = null){
+    public function getList($id = null){
         if($id != null){
             $order = Order::find($id);
             if(!empty($order)){
