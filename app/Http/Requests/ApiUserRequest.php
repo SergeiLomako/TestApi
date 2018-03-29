@@ -26,7 +26,7 @@ class ApiUserRequest extends FormRequest
         return [
             'last_name' => 'required|min:2|max:15',
             'first_name' => 'required|min:2|max:15',
-            'tel' => 'required',
+            'tel' => 'required|unique:users',
             'avatar' => 'required',
             'city' => 'required',
             'address' => 'required',

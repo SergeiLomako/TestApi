@@ -33,7 +33,13 @@ class OrderController extends Controller
                 return response()->json(['error' => 'Wrong data']);
             }
         }
-        $orders = Order::all();
-        return response()->json($orders->toJson());
+        $list = collect([]);
+        Order::chunk(20, function($orders) use($list){
+            foreach($orders as $item){
+                $list->push($item);
+            }
+        });
+
+        return response()->json($list->toJson());
     }
 }

@@ -11,7 +11,7 @@ class UserData extends Model
 
     protected $table = 'user_data';
     public $primaryKey = 'id';
-    protected $fillable = ['first_name', 'last_name', 'address', 'city', 'tel'];
+    protected $fillable = ['first_name', 'last_name', 'address', 'city'];
 
     public function user()
     {

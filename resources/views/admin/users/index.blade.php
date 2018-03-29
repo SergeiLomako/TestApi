@@ -29,7 +29,7 @@
                     'class' => 'input_item city']) !!}</td>
             <td>{!! Form::text('address', isset($user->data) ? $user->data->address : $user->address, ['size' => 12, 'readonly' => 'true', 'style' => 'border: none',
                     'class' => 'input_item address'] ) !!}</td>
-            <td>{!! Form::tel('tel', isset($user->data) ? $user->data->tel : $user->tel, ['size' => 12, 'readonly' => 'true', 'style' => 'border: none',
+            <td>{!! Form::tel('tel', $user->tel, ['size' => 12, 'readonly' => 'true', 'style' => 'border: none',
                     'class' => 'input_item tel_number'] ) !!}</td>
             <td>{!! Form::text('login', $user->login, ['size' => 12, 'class' => 'latin input_item login', 'maxlength' => 10,
                     'readonly' => 'true', 'style' => 'border: none'] ) !!}</td>
