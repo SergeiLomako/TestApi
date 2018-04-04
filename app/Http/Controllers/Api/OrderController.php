@@ -33,12 +33,8 @@ class OrderController extends Controller
                 return response()->json(['error' => 'Wrong data']);
             }
         }
-        $list = collect([]);
-        Order::chunk(20, function($orders) use($list){
-            foreach($orders as $item){
-                $list->push($item);
-            }
-        });
+
+        $list = Order::paginate(env('PAGINATE_LIMIT'));
 
         return response()->json($list->toJson());
     }
