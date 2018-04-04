@@ -24,6 +24,11 @@ class CreateUserDatasTable extends Migration
             $table->string('city')->nullable();
             $table->timestamps();
         });
+
+        Schema::table('user_data', function(Blueprint $table)
+        {
+            $table->foreign('user_id')->references('id')->on('users');
+        });
     }
 
     /**

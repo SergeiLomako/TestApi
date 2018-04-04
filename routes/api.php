@@ -15,8 +15,8 @@ use Illuminate\Http\Request;
 
 Route::group(['prefix' => 'v1'], function () {
     Route::post('/register', ['uses' => 'Api\UserController@register']);
-    Route::put('/send_code', ['uses' => 'Api\UserController@sendCode']);
+    Route::put('/send-code', ['uses' => 'Api\UserController@sendCode']);
     Route::put('/auth', ['uses' => 'Api\UserController@auth']);
-    Route::post('/add_order', ['uses' => 'Api\OrderController@addOrder']);
-    Route::get('/get_orders/{id?}', ['uses' => 'Api\OrderController@getList']);
+    Route::post('/add-order', ['uses' => 'Api\OrderController@addOrder']);
+    Route::get('/get-orders/{id?}', ['uses' => 'Api\OrderController@getList']);
 });

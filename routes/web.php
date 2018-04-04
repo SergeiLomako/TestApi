@@ -22,11 +22,11 @@ Route::get('/remember', ['as' => 'remember', function () {
     }
 }]);
 
-Route::post('/send_token', ['uses' => 'Auth\ForgotPasswordController@sendMail','as' => 'send_token']);
+Route::post('/send-token', ['uses' => 'Auth\ForgotPasswordController@sendMail','as' => 'send_token']);
 
-Route::get('/change_password_form/{token}', ['uses' => 'Auth\ResetPasswordController@changePasswordForm','as' => 'change_password_form']);
+Route::get('/change-password-form/{token}', ['uses' => 'Auth\ResetPasswordController@changePasswordForm','as' => 'change_password_form']);
 
-Route::post('/save_password', ['uses' => 'Auth\ResetPasswordController@savePassword','as' => 'save_password']);
+Route::post('/save-password', ['uses' => 'Auth\ResetPasswordController@savePassword','as' => 'save_password']);
 
 Route::post('/auth', ['uses' => 'Auth\LoginController@login','as' => 'admin_auth']);
 

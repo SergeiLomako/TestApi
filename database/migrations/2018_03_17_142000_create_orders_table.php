@@ -15,9 +15,12 @@ class CreateOrdersTable extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('user_id')->nullable();
-            $table->integer('service_id')->nullable();
-            $table->integer('terminal_id')->nullable();
+            $table->unsignedInteger('user_id')->nullable();
+            $table->unsignedInteger('service_id')->nullable();
+            $table->unsignedInteger('terminal_id')->nullable();
+            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('service_id')->references('id')->on('services');
+            $table->foreign('terminal_id')->references('id')->on('terminals');
             $table->string('title')->nullable();
             $table->dateTime('date_receipt')->nullable();
             $table->dateTime('date_complete')->nullable();
