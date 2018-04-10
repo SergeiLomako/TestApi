@@ -90,9 +90,9 @@
                                 </span>
                             </a>
                             <ul class="treeview-menu">
-                                <li><a href="{{route('user')}}"><i class="fa fa-circle-o"></i> Список</a></li>
+                                <li><a href="{{route('users')}}"><i class="fa fa-circle-o"></i> Список</a></li>
                                 @role('super_admin')
-                                <li><a href="{{route('add_user')}}"><i class="fa fa-circle-o"></i> Добавить</a></li>
+                                <li><a href="{{route('store_user_form')}}"><i class="fa fa-circle-o"></i> Добавить</a></li>
                                 @endrole
                             </ul>
                         </li>
@@ -105,9 +105,9 @@
                                 </span>
                             </a>
                             <ul class="treeview-menu">
-                                <li><a href="{{route('order')}}"><i class="fa fa-circle-o"></i> Список</a></li>
+                                <li><a href="{{route('orders')}}"><i class="fa fa-circle-o"></i> Список</a></li>
                                 @role('super_admin')
-                                <li><a href="{{route('add_order')}}"><i class="fa fa-circle-o"></i> Добавить</a></li>
+                                <li><a href="{{route('store_order_form')}}"><i class="fa fa-circle-o"></i> Добавить</a></li>
                                 @endrole
                             </ul>
                         </li>

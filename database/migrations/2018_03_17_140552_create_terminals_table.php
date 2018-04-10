@@ -15,7 +15,7 @@ class CreateTerminalsTable extends Migration
     {
         Schema::create('terminals', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('address')->nullable();
+            $table->string('address');
             $table->timestamps();
         });
     }

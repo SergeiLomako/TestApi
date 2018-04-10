@@ -1,7 +1,7 @@
 @extends('admin.layouts.admin')
 
 @section('content')
-    {!! Form::open(['url' => route('add_order'), 'method' => 'POST']) !!}
+    {!! Form::open(['url' => route('store_order'), 'method' => 'POST']) !!}
     <div class="row">
         <div class="col-sm-4"></div>
         <div class="col-sm-4">

@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers\Admin;
 
 use Auth;
@@ -8,6 +9,7 @@ use App\UserData;
 use App\Helpers\MyHelper;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\ApiUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 
 class UserController extends Controller
@@ -18,7 +20,7 @@ class UserController extends Controller
 
     public function index(Request $request)
     {
-        if(isset($request->field) && $request->sort){
+        if (isset($request->field) && $request->sort) {
             $this->field = $request->field;
             $this->sort = $request->sort;
         }
@@ -28,10 +30,10 @@ class UserController extends Controller
         $roles = Role::roleList();
         $sort = $this->sort == 'desc' ? 'asc' : 'desc';
         $data = ['title' => 'Список пользователей',
-                 'users' => $users,
-                 'roles' => $roles,
-                 'sort' => $sort
-                ];
+            'users' => $users,
+            'roles' => $roles,
+            'sort' => $sort
+        ];
         return view('admin.users.user', $data);
     }
 
@@ -39,7 +41,7 @@ class UserController extends Controller
     {
         $user = User::findOrFail($id);
         $user->login = $request->login;
-        if(!empty($request->password)){
+        if (!empty($request->password)) {
             $user->password = $request->password;
         }
         $user->save();
@@ -48,35 +50,26 @@ class UserController extends Controller
         MyHelper::fillRequest($data, $request);
     }
 
-    public function add(Request $request)
+    public function showStoreForm()
     {
-        if ($request->isMethod('post')) {
-            $request->validate([
-                'first_name' => 'required|min:2|max:15',
-                'last_name' => 'required|min:2|max:15',
-                'city' => 'required|min:3',
-                'address' => 'required',
-                'tel' => 'required',
-                'login' => 'required|min:3',
-                'password' => 'required|min:6',
-                'email' => 'required|unique:users'
-            ]);
-            $user = new User();
-            MyHelper::fillRequest($user, $request);
-            MyHelper::addRole($user, $request->role);
-            $data = new UserData();
-            $data->user_id = $user->id;
-            MyHelper::fillRequest($data, $request);
-            return redirect()->route('user')->with('status', 'Пользователь добавлен!');
-
-        }
         $roles = Role::roleList();
         $data = ['title' => 'Добавление нового пользователя',
                  'roles' => $roles];
         return view('admin.users.add', $data);
     }
 
-    public function getInfo(Request $request)
+    public function store(ApiUserRequest $request)
+    {
+        $user = new User();
+        MyHelper::fillRequest($user, $request);
+        MyHelper::addRole($user, $request->role);
+        $data = new UserData();
+        $data->user_id = $user->id;
+        MyHelper::fillRequest($data, $request);
+        return redirect()->route('users')->with('status', 'Пользователь добавлен!');
+    }
+
+    public function show(Request $request)
     {
         $user = User::findOrFail($request->id);
         $content = view('admin.users.show_user_info', ['user' => $user]);
@@ -89,25 +82,22 @@ class UserController extends Controller
     {
         $user = User::findOrFail($request->id);
         $user->delete();
-        $data = UserData::whereUserId($request->id)->firstOrFail();
-        $data->delete();
     }
 
     public function search(Request $request)
     {
         $user = Auth::user();
         $search = '%' . $request->search . '%';
-        if(isset($request->search_id) && $request->search_id == 'on'){
+        if (isset($request->search_id) && $request->search_id == 'on') {
             $order = \App\Order::whereSealNumber($request->search)->first();
             $message = 'Ничего не найдено';
-            if($order != null){
+            if ($order != null) {
                 $lists = MyHelper::servicesAndStatuses();
-                $message = 'Клиент:' . ' '. $order->user->data->full_name . ' (' . $order->user->data->tel. '). ' . 'Услуга:' .
-                            ' ' . $lists['services'][$order->service_id] . '. Дата поступления: ' . $order->date_receipt;
+                $message = 'Клиент:' . ' ' . $order->user->data->full_name . ' (' . $order->user->data->tel . '). ' . 'Услуга:' .
+                    ' ' . $lists['services'][$order->service_id] . '. Дата поступления: ' . $order->date_receipt;
             }
-            return redirect()->route('user')->with('status', $message);
-        }
-        else {
+            return redirect()->route('users')->with('status', $message);
+        } else {
             $users = User::search($user, $search);
         }
         $roles = Role::roleList();

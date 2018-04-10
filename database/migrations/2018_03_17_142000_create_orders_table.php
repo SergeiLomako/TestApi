@@ -15,10 +15,10 @@ class CreateOrdersTable extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedInteger('user_id')->nullable();
-            $table->unsignedInteger('service_id')->nullable();
-            $table->unsignedInteger('terminal_id')->nullable();
-            $table->foreign('user_id')->references('id')->on('users');
+            $table->unsignedInteger('user_id')->nullable(false);
+            $table->unsignedInteger('service_id')->nullable(false);
+            $table->unsignedInteger('terminal_id')->nullable(false);
+            $table->foreign('user_id')->references('id')->on('users')->onUpdate('cascade')->onDelete('cascade');
             $table->foreign('service_id')->references('id')->on('services');
             $table->foreign('terminal_id')->references('id')->on('terminals');
             $table->string('title')->nullable();
@@ -27,8 +27,8 @@ class CreateOrdersTable extends Migration
             $table->tinyInteger('status')->default(0);
             $table->tinyInteger('payment')->default(0);
             $table->tinyInteger('payment_status')->default(0);
-            $table->integer('box_number')->nullable();
-            $table->integer('seal_number')->nullable();
+            $table->integer('box_number')->nullable(false);
+            $table->integer('seal_number')->nullable(false);
             $table->timestamps();
         });
     }

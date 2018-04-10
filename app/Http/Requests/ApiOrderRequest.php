@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class ApiUserRequest extends FormRequest
+class ApiOrderRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,13 +24,11 @@ class ApiUserRequest extends FormRequest
     public function rules()
     {
         return [
-            'last_name' => 'required|min:2',
-            'first_name' => 'required|min:2',
-            'tel' => 'required|unique:users',
-            'city' => 'required',
-            'address' => 'required',
-            'email' => 'required|email|unique:users',
-            'password' => 'required|min:6',
+            'terminal_id' => 'required|numeric',
+            'user_id' => 'required|numeric',
+            'service_id' => 'required|numeric',
+            'box_number' => 'required|numeric',
+            'seal_number' => 'required|numeric',
         ];
     }
 }

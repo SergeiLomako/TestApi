@@ -36,29 +36,23 @@ class ResetPasswordController extends Controller
         $this->middleware('guest');
     }
 
-    public function changePasswordForm($token){
-          $user = User::getToResetToken($token);
-          if(!empty($user)){
-              return view('change_password', ['token' => $token]);
-          }
-
-          abort(404);
+    public function changePasswordForm($token)
+    {
+        $user = User::getToResetToken($token);
+        return view('change_password', ['token' => $token]);
     }
 
-    public function savePassword(Request $request){
+    public function savePassword(Request $request)
+    {
         $this->validate($request, [
             'password' => 'required|min:6|max:25',
             'password_confirmation' => 'required|min:6|max:25|same:password',
         ]);
         $user = User::getToResetToken($request->token);
-        if(!empty($user)){
-            $user->password = bcrypt($request->password);
-            $user->password_reset_token = null;
-            $user->save();
-            return redirect()->route('admin_login')->with('status', 'Пароль успешно изменен');
-        }
-
-        abort(404);
+        $user->password = bcrypt($request->password);
+        $user->password_reset_token = null;
+        $user->save();
+        return redirect()->route('admin_login')->with('status', 'Пароль успешно изменен');
     }
 
 

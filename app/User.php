@@ -43,7 +43,7 @@ class User extends Authenticatable
 
     public static function getToResetToken($token)
     {
-        return self::wherePasswordResetToken($token)->first();
+        return self::wherePasswordResetToken($token)->firstOrFail();
     }
 
     public function setPasswordAttribute($value)

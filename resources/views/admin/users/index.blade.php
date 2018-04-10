@@ -1,4 +1,4 @@
-<a href="{{route('add_user')}}" class="btn btn-default pull-right" style="margin-bottom: 10px">Добавить пользователя</a>
+<a href="{{route('store_user_form')}}" class="btn btn-default pull-right" style="margin-bottom: 10px">Добавить пользователя</a>
 
 {!! Form::open(['url' => route('search_user'), 'method' => 'get']) !!}
 {!! Form::text('search', old('search'), ['class'=>'form-control']) !!}

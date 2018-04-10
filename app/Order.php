@@ -35,6 +35,7 @@ class Order extends Model
     public static function getList($field, $sort)
     {
         return self::join('services', 'orders.service_id', '=', 'services.id')
+            ->select(['orders.*', 'services.title'])
             ->orderBy($field, $sort)
             ->paginate(env('PAGINATE_LIMIT'));
     }

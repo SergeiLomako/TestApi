@@ -63,7 +63,7 @@ $(function () {
             if (parent.hasClass('writable')) {
                 var full_name = parent.find('.full_name').val().split(' ');
                 $.ajax({
-                    url: '/admin/user/update/' + parent.attr('id'),
+                    url: '/admin/users/' + parent.attr('id'),
                     type: 'PUT',
                     data: {
                         last_name: full_name[0],
@@ -91,7 +91,7 @@ $(function () {
            var parent = $(this).parents('.list_item');
            if (parent.hasClass('writable')) {
                $.ajax({
-                   url: '/admin/order/update/' + parent.attr('id'),
+                   url: '/admin/orders/' + parent.attr('id'),
                    type: 'PUT',
                    data: {
                        service_id: parent.find('.service_id').val(),
@@ -113,11 +113,10 @@ $(function () {
 
     $('.info_item').each(function () {
        $(this).click(function () {
-           var url = $(this).attr('data-type') == 'user' ? '/admin/user/info' : '/admin/order/info';
+           var url = $(this).attr('data-type') == 'user' ? '/admin/users/' : '/admin/orders/';
             $.ajax({
                 type: 'GET',
-                url: url,
-                data: {id: $(this).attr('id')},
+                url: url + $(this).attr('id'),
                 success: function (data) {
                     $('#popup' + data.id).html(data.content);
                 }
@@ -127,13 +126,12 @@ $(function () {
 
     $('.delete_item').each(function () {
         $(this).click(function () {
-            var url = $(this).attr('data-type') == 'user' ? '/admin/user/delete' : '/admin/order/delete';
+            var url = $(this).attr('data-type') == 'user' ? '/admin/users/' : '/admin/orders/';
             var parent = $(this).parents('.list_item');
             if (confirm('Вы точно хотите удалить?')) {
                 $.ajax({
                     type: 'DELETE',
-                    url: url,
-                    data: {id: $(this).attr('data-id')},
+                    url: url + $(this).attr('data-id'),
                     success: function () {
                         parent.hide(600);
                     }

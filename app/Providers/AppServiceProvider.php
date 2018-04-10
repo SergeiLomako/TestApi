@@ -26,6 +26,7 @@ class AppServiceProvider extends ServiceProvider
                     $super_admin = new User();
                     $super_admin->email = 'admin@admin.com';
                     $super_admin->password = '12345678';
+                    $super_admin->tel = '38066666666';
                     $super_admin->save();
                     $super_admin->attachRole('super_admin');
                 }

@@ -1,4 +1,4 @@
-<a href="{{route('add_order')}}" class="btn btn-default pull-right" style="margin-bottom: 10px">Добавить заказ</a>
+<a href="{{route('store_order_form')}}" class="btn btn-default pull-right" style="margin-bottom: 10px">Добавить заказ</a>
 
 {!! Form::open(['url' => route('search_order'), 'method' => 'get']) !!}
 {!! Form::text('search', old('search'), ['class'=>'form-control']) !!}

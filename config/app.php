@@ -163,7 +163,6 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
-        App\Providers\MyServiceProvider::class,
 
     ],
 
@@ -216,8 +215,6 @@ return [
         'Laratrust'   => Laratrust\LaratrustFacade::class,
         'Form' => Collective\Html\FormFacade::class,
         'Html' => Collective\Html\HtmlFacade::class,
-        'MyHelper' => App\Helpers\MyHelper::class,
-
     ],
 
 ];

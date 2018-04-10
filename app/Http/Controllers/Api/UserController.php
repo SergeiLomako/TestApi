@@ -16,7 +16,7 @@ class UserController extends Controller
 {
     use AuthenticatesUsers;
 
-    public function register(ApiUserRequest $request)
+    public function store(ApiUserRequest $request)
     {
         $user = new User();
         $user->auth_token = str_random(50);
@@ -26,7 +26,7 @@ class UserController extends Controller
         $user_data->user_id = $user->id;
         $user_data->fill($request->all());
         $user_data->save();
-        return response()->json(['access_token' => $user->auth_token], 201)->withHeaders(['Access-token' =>$user->auth_token]);
+        return response()->json(['access_token' => $user->auth_token], 201)->withHeaders(['Access-token' => $user->auth_token]);
     }
 
     public function sendCode(Request $request)
@@ -35,7 +35,8 @@ class UserController extends Controller
         if (Auth::attempt([
             'tel' => $tel,
             'password' => $request->password,
-        ])) {
+        ])
+        ) {
 
             $code = rand(10000, 99999);
             $user = Auth::user();
@@ -43,27 +44,22 @@ class UserController extends Controller
             $user->save();
             Notification::send($user, new ConfirmNumber($code));
             return response()->json(['show_sms_form' => 'OK',
-                                     'id' => $user->id]);
-        }
-        else {
-            return response()->json(['error' => 'Wrong number or password'], 404);
+                'id' => $user->id]);
+        } else {
+            return response()->json(['error' => 'Wrong number or password'], 401);
         }
     }
 
-    public function auth(Request $request){
+    public function auth(Request $request)
+    {
         $request->validate([
             'id' => 'required',
             'code' => 'required',
         ]);
 
-        $user = User::whereId($request->id)->where('sms_code', $request->code)->first();
-        if(!empty($user)){
-            $user->auth_token = str_random(50);
-            $user->save();
-            return response()->json(['auth_token' => $user->auth_token])->withHeaders(['Access-token' =>$user->auth_token]);
-        }
-        else {
-            return response()->json(['error' => 'Wrong data'],404);
-        }
+        $user = User::whereId($request->id)->where('sms_code', $request->code)->firstOrFail();
+        $user->auth_token = str_random(50);
+        $user->save();
+        return response()->json(['auth_token' => $user->auth_token])->withHeaders(['Access-token' => $user->auth_token]);
     }
 }

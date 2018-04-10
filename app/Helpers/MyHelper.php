@@ -13,7 +13,13 @@ class MyHelper {
     }
 
     public static function fillRequest($model, $request){
-        $model->fill($request->all());
+        $array = $request->except('_token');
+        foreach($array as $item){
+            trim($item);
+            strip_tags($item);
+            htmlspecialchars($item);
+        }
+        $model->fill($array);
         $model->save();
         return true;
     }
@@ -55,6 +61,4 @@ class MyHelper {
                 'terminals' => $terminal_list
                 ];
     }
-
-
 }

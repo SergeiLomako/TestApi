@@ -42,35 +42,41 @@ Route::group(['prefix' => 'admin', 'middleware' => ['role:super_admin|admin|mode
 
     Route::post('/logout', ['uses' => 'Auth\LoginController@logout','as' => 'admin_logout']);
 
-    Route::group(['prefix' => 'user', 'middleware' => ['role:super_admin|admin']], function () {
+    Route::group(['prefix' => 'users', 'middleware' => ['role:super_admin|admin']], function () {
 
-        Route::get('/', ['uses' => 'Admin\UserController@index', 'as' => 'user']);
+        Route::get('/', ['uses' => 'Admin\UserController@index', 'as' => 'users']);
 
-        Route::match(['get', 'post'],'/add', ['uses' => 'Admin\UserController@add', 'as' => 'add_user','middleware' => ['role:super_admin']]);
+        Route::post('/', ['uses' => 'Admin\UserController@store', 'as' => 'store_user']);
 
-        Route::put('/update/{id}', ['uses' => 'Admin\UserController@update', 'as' => 'update_user']);
-
-        Route::delete('/delete', ['uses' => 'Admin\UserController@delete', 'as' => 'delete_user']);
-
-        Route::get('/info', ['uses' => 'Admin\UserController@getInfo', 'as' => 'info_user']);
+        Route::get('/store', ['uses' => 'Admin\UserController@showStoreForm', 'as' => 'store_user_form','middleware' => ['role:super_admin']]);
 
         Route::get('/search', ['uses' => 'Admin\UserController@search', 'as' => 'search_user']);
 
+        Route::put('/{id}', ['uses' => 'Admin\UserController@update', 'as' => 'update_user']);
+
+        Route::delete('/{id}', ['uses' => 'Admin\UserController@delete', 'as' => 'delete_user']);
+
+        Route::get('/{id}', ['uses' => 'Admin\UserController@show', 'as' => 'show_user']);
+
+
     });
 
-    Route::group(['prefix' => 'order'], function () {
+    Route::group(['prefix' => 'orders'], function () {
 
-        Route::get('/', ['uses' => 'Admin\OrderController@index', 'as' => 'order']);
+        Route::get('/', ['uses' => 'Admin\OrderController@index', 'as' => 'orders']);
 
-        Route::match(['get', 'post'],'/add', ['uses' => 'Admin\OrderController@add', 'as' => 'add_order', 'middleware' => ['role:super_admin']]);
+        Route::post('/', ['uses' => 'Admin\OrderController@store', 'as' => 'store_order']);
 
-        Route::put('/update/{id}', ['uses' => 'Admin\OrderController@update', 'as' => 'update_order', 'middleware' => ['role:super_admin']]);
-
-        Route::delete('/delete', ['uses' => 'Admin\OrderController@delete', 'as' => 'delete_order', 'middleware' => ['role:super_admin']]);
-
-        Route::get('/info', ['uses' => 'Admin\OrderController@getInfo', 'as' => 'info_order']);
+        Route::get('/store', ['uses' => 'Admin\OrderController@showStoreForm', 'as' => 'store_order_form', 'middleware' => ['role:super_admin']]);
 
         Route::get('/search', ['uses' => 'Admin\OrderController@search', 'as' => 'search_order']);
+
+        Route::put('/{id}', ['uses' => 'Admin\OrderController@update', 'as' => 'update_order', 'middleware' => ['role:super_admin']]);
+
+        Route::delete('/{id}', ['uses' => 'Admin\OrderController@delete', 'as' => 'delete_order', 'middleware' => ['role:super_admin']]);
+
+        Route::get('/{id}', ['uses' => 'Admin\OrderController@show', 'as' => 'info_order']);
+
 
     });
 

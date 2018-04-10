@@ -3,39 +3,28 @@
 namespace App\Http\Controllers\Api;
 
 use App\Order;
-use Illuminate\Http\Request;
+use App\Helpers\MyHelper;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\ApiOrderRequest;
 
 class OrderController extends Controller
 {
-    public function addOrder(Request $request){
-        $request->validate([
-            'terminal_id' => 'required|numeric',
-            'box_number' => 'required|numeric',
-            'seal_number' => 'required|numeric',
-            'service_id' => 'required|numeric',
-            'payment' => 'required|numeric',
-        ]);
-
-        $new_order = new Order();
-        $new_order->fill($request->all());
-        $new_order->save();
-        return response()->json(['status' => 'Order added'], 201);
+    public function index()
+    {
+        $orders = Order::paginate(env('PAGINATE_LIMIT'));
+        return response()->json($orders->toJson());
     }
 
-    public function getList($id = null){
-        if($id != null){
-            $order = Order::find($id);
-            if(!empty($order)){
-                return response()->json($order->toJson());
-            }
-            else {
-                return response()->json(['error' => 'Wrong data']);
-            }
-        }
+    public function show($id)
+    {
+        $order = Order::findOrFail($id);
+        return response()->json($order->toJson());
+    }
 
-        $list = Order::paginate(env('PAGINATE_LIMIT'));
-
-        return response()->json($list->toJson());
+    public function store(ApiOrderRequest $request)
+    {
+        $new_order = new Order();
+        MyHelper::fillRequest($new_order, $request);
+        return response()->json(['status' => 'Order created'], 201);
     }
 }
